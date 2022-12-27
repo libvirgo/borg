@@ -30,7 +30,10 @@ EMACS_EXTRA ?=
         init-clean init-build bootstrap bootstrap-borg
 .FORCE:
 
-SILENCIO  = --load subr-x
+SILENCIO = --eval '(setq native-comp-cache-dir (expand-file-name (expand-file-name ".local/eln/" user-emacs-directory) comp-native-version-dir))'
+SILENCIO += --eval "(setcar native-comp-eln-load-path native-comp-cache-dir) (startup-redirect-eln-cache native-comp-cache-dir))"
+SILENCIO += --eval '(setq native-compile-target-directory native-comp-cache-dir)'
+SILENCIO += --load subr-x
 SILENCIO += --eval "(setq byte-compile-warnings '(not docstrings))"
 SILENCIO += --eval "(fset 'original-message (symbol-function 'message))"
 SILENCIO += --eval "(fset 'message\
